@@ -1,11 +1,15 @@
-from re import L
-from typing import List 
-
+from typing import List
+class Card:
+    '''
+    Dummy Card class for type annotation
+    '''
+    pass
 
 class Card:
 
     SUITS:tuple = ("Hearts","Clubs", "Spades", "Diamonds")
-    RANKS:tuple = ("2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace")
+    RANKS:tuple = ("2", "3", "4", "5", "6", "7", "8", "9", 
+                   "10", "Jack", "Queen", "King", "Ace")
 
     def __init__(self, rank:str, suit:str) -> None:
         if rank not in self.RANKS:
@@ -18,7 +22,17 @@ class Card:
     
 
 
+    @classmethod
+    def generate_52_standard_cards(cls: Card) -> List[Card]:
+        return [
+            Card(suit= suit, rank= rank) 
+            for suit in cls.SUITS
+            for rank in cls.RANKS
+        ]
 
+    def __eq__(self, __o: Card) -> bool:
+        return (self.rank == __o.rank) and \
+               (self.suit == __o.suit)
 
     def __str__(self) -> str:
         return f"{self.rank} of {self.suit}"
@@ -26,3 +40,5 @@ class Card:
 
     def __repr__(self) -> str:
         return f"Card ('{self.rank}', '{self.suit}')"
+
+

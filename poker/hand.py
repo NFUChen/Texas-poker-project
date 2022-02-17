@@ -48,7 +48,10 @@ class Hand:
 
 
     def _straight(self) -> bool:
-        pass
+        rank_indexes = [card.rank_index for card in self.cards]
+        #e.g., rank_indexes = [6,7,8,9,10] 
+        # rank_indexes== list(range(6, 11))
+        return rank_indexes == list(range(rank_indexes[0],rank_indexes[-1] + 1))
         
 
     

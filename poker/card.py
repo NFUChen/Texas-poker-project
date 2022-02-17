@@ -8,8 +8,10 @@ class Card:
 class Card:
 
     SUITS:tuple = ("Hearts","Clubs", "Spades", "Diamonds")
-    RANKS:tuple = ("2", "3", "4", "5", "6", "7", "8", "9", 
-                   "10", "Jack", "Queen", "King", "Ace")
+    RANKS:tuple = (
+        "2", "3", "4", "5", "6", "7", "8", "9", "10", 
+        "Jack", "Queen", "King", "Ace"
+        )
 
     def __init__(self, rank:str, suit:str) -> None:
         if rank not in self.RANKS:

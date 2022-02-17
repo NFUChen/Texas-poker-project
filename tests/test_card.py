@@ -10,6 +10,11 @@ class CardTest(unittest.TestCase):
         test_card = Card(rank= "Queen", suit = "Hearts")
         self.assertEqual(test_card.rank, "Queen")
         self.assertEqual(test_card.suit, "Hearts")
+    
+    def test_has_rank_and_suit_index(self):
+        test_card = Card(rank= "Jack", suit = "Hearts")
+        self.assertEqual(test_card.rank_index, 9)
+        self.assertEqual(test_card.suit_index, 0)
 
     def test_has_string_representation_with_rank_and_suit(self):
         """
@@ -59,6 +64,43 @@ class CardTest(unittest.TestCase):
         test_card1 = Card(rank= "Queen", suit = "Hearts")
         test_card2 = Card(rank= "Queen", suit = "Hearts")
         self.assertTrue(test_card1 == test_card2)
+    
+    def test_figures_out_if_one_card_is_greater_than_other_card(self):
+        two_of_spades = Card(rank= "2", suit= "Spades")
+        five_of_hearts = Card(rank= "5", suit= "Hearts")
+        self.assertTrue(five_of_hearts > two_of_spades)
+
+        queen_of_spades = Card(rank= "Queen", suit= "Spades")
+        king_of_spades = Card(rank= "King", suit= "Spades")
+        self.assertTrue(king_of_spades > queen_of_spades, "No comparison concept implemented")
+
+
+    def test_sorts_cards(self):
+        two_of_spades = Card(rank= "2", suit= "Spades")
+        five_of_diamonds = Card(rank= "5", suit= "Diamonds")
+        five_of_hearts = Card(rank= "5", suit= "Hearts")
+        eight_of_hearts = Card(rank= "8", suit= "Hearts")
+        ace_of_clubs = Card(rank= "Ace", suit= "Clubs")
+
+        unsorted_cards = [
+            eight_of_hearts,
+            ace_of_clubs,
+            two_of_spades,
+            five_of_diamonds,
+            five_of_hearts,
+            
+        ]
+        unsorted_cards.sort()
+        self.assertEqual(unsorted_cards, 
+        [
+            two_of_spades,
+            five_of_diamonds,
+            five_of_hearts,
+            eight_of_hearts,
+            ace_of_clubs
+        ])
+    
+
 
     
 

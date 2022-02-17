@@ -21,6 +21,9 @@ class Card:
         self.rank = rank
         self.suit = suit
 
+        self.rank_index = self.RANKS.index(self.rank)
+        self.suit_index = self.SUITS.index(self.suit)
+
     
 
 
@@ -35,6 +38,14 @@ class Card:
     def __eq__(self, __o: Card) -> bool:
         return (self.rank == __o.rank) and \
                (self.suit == __o.suit)
+
+    def __gt__(self, __o: Card) -> bool:
+        '''
+        implement Card.sort() automatically
+        '''
+        
+
+        return self.rank_index > __o.rank_index
 
     def __str__(self) -> str:
         return f"{self.rank} of {self.suit}"

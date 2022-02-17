@@ -5,8 +5,8 @@ from poker.hand import Hand
 class HandTest(unittest.TestCase):
     def test_receives_and_stores_cards(self):
         cards = [
+            Card(rank= "4", suit= "Hearts"),
             Card(rank= "Ace", suit= "Hearts"),
-            Card(rank= "4", suit= "Hearts")
                  ]
         
         hand = Hand(cards = cards)
@@ -58,6 +58,19 @@ class HandTest(unittest.TestCase):
         hand = Hand(cards = cards)
         self.assertEqual(hand.best_rank(), 
                          "Three of A Kind")
+
+    def test_figues_out_straight_of_a_kind_is_the_best_rank(self):
+        cards = [
+            Card(rank= "6", suit= "Hearts"),
+            Card(rank= "7", suit= "Spades"),
+            Card(rank= "8", suit= "Hearts"),
+            Card(rank= "9", suit= "Spades"),
+            Card(rank= "10", suit= "Diamonds"),
+                 ]
+
+        hand = Hand(cards = cards)
+        self.assertEqual(hand.best_rank(), 
+                         "Straight")
 
 
 

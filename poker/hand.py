@@ -5,7 +5,9 @@ from poker.card import Card
 
 class Hand:
     def __init__(self, cards:List[Card]) -> None:
-        self.cards = cards
+        copy = cards[:]
+        copy.sort()
+        self.cards = copy
 
     
 
@@ -16,10 +18,12 @@ class Hand:
         which the returned tuple (which will be unpacked as well) will be iterated over, 
         '''
         return (
+        ("Straight", self._straight),
         ("Three of A Kind", self._three_of_a_kind),
         ("Two Pair", self._two_pair),
         ("Pair", self._pair),
         ("High Card",self._high_card),
+        
     )
 
 
@@ -33,13 +37,20 @@ class Hand:
             rank_name, validator_func = rank_name_with_validator_tuple
             if validator_func():
                 return rank_name
+
+    
+
+
         
             
 
 
 
 
-    
+    def _straight(self) -> bool:
+        pass
+        
+
     
     def _three_of_a_kind(self) -> bool:
         '''

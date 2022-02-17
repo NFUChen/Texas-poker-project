@@ -32,7 +32,32 @@ class HandTest(unittest.TestCase):
         self.assertEqual(hand.best_rank(), 
                          "Pair")
 
-    
+    def test_figues_out_two_pairs_is_the_best_rank(self):
+        cards = [
+            Card(rank= "Ace", suit= "Hearts"),
+            Card(rank= "Ace", suit= "Spades"),
+            Card(rank= "7", suit= "Hearts"),
+            Card(rank= "7", suit= "Spades"),
+            Card(rank= "5", suit= "Spades")
+                 ]
+
+        hand = Hand(cards = cards)
+        self.assertEqual(hand.best_rank(), 
+                         "Two Pair")
+
+
+    def test_figues_out_three_of_a_kind_is_the_best_rank(self):
+        cards = [
+            Card(rank= "Ace", suit= "Hearts"),
+            Card(rank= "3", suit= "Spades"),
+            Card(rank= "7", suit= "Hearts"),
+            Card(rank= "7", suit= "Spades"),
+            Card(rank= "7", suit= "Diamonds"),
+                 ]
+
+        hand = Hand(cards = cards)
+        self.assertEqual(hand.best_rank(), 
+                         "Three of A Kind")
 
 
 

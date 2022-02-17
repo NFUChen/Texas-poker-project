@@ -14,7 +14,7 @@ class HandTest(unittest.TestCase):
 
     def test_figues_out_high_card_is_the_best_rank(self):
         cards = [
-            Card(rank= "Ace", suit= "Hearts"),
+            Card(rank= "6", suit= "Hearts"),
             Card(rank= "7", suit= "Spades")
                  ]
 

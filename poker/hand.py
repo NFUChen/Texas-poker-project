@@ -8,6 +8,7 @@ class Hand:
         copy = cards[:]
         copy.sort()
         self.cards = copy
+        self.amount_of_cards_hold = len(self.cards)
 
     
 
@@ -51,6 +52,9 @@ class Hand:
         rank_indexes = [card.rank_index for card in self.cards]
         #e.g., rank_indexes = [6,7,8,9,10] 
         # rank_indexes== list(range(6, 11))
+        if self.amount_of_cards_hold < 5:
+            return False
+
         return rank_indexes == list(range(rank_indexes[0],rank_indexes[-1] + 1))
         
 

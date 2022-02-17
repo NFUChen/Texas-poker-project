@@ -9,11 +9,9 @@ class Card:
 
     def __init__(self, rank:str, suit:str):
         if rank not in self.RANKS:
-            raise ValueError(f"Please input valid rank. \
-                               Rank must be one of the following {self.RANKS}")
+            raise ValueError(f"Please input valid rank. Rank must be one of the following {self.RANKS}")
         if suit not in self.SUITS:
-            raise ValueError(f"Please input valid suit. \
-                               Suit must be one of the following {self.SUITS}")
+            raise ValueError(f"Please input valid suit. Suit must be one of the following {self.SUITS}")
         self.rank = rank
         self.suit = suit
 

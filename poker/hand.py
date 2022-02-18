@@ -47,7 +47,8 @@ class Hand:
     
     def _royal_flush(self) -> bool:
         is_straight_flush = self._straight_flush()
-        if not is_straight_flush:
+        if not is_straight_flush: 
+            # if the .amount_of_cards_hold is < 5, returning False
             return False
 
         is_royal = (self.cards[-1].rank == "Ace" and 

@@ -12,7 +12,7 @@ class Hand:
 
     
 
-    @property
+    @property 
     def _rank_validations_from_best_to_worst(self) -> Tuple[Tuple[str, Callable]]:
         '''
         Helper property of .best_rank() method, 

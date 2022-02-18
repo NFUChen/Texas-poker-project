@@ -89,3 +89,22 @@ class GameRoundTest(unittest.TestCase):
         self.assertEqual(
             game_round.players, [player2]
         )
+
+    def test_deals_same_three_community_cards_to_all_players_in_flop(self):
+        player1 = MagicMock()
+        player2 = MagicMock()
+        player1.wants_to_fold.return_value = False  # player1 wants to fold
+        player2.wants_to_fold.return_value = False  # player2 wants to fold as well
+
+        community_cards = [
+            Card(rank="9", suit="Diamonds"),
+            Card(rank="4", suit="Spades"),
+            Card(rank="5", suit="Spades"),
+        ]
+
+        mock_deck = MagicMock()
+        mock_deck.remove_cards.side_effect = [
+            [],
+            [],
+            community_cards,
+        ]

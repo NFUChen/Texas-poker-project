@@ -4,11 +4,19 @@ from poker.card import Card
 
 
 class Hand:
-    def __init__(self, cards: List[Card]) -> None:
-        copy = cards[:]
-        copy.sort()
-        self.cards = copy
-        self.amount_of_cards_hold = len(self.cards)
+    def __init__(self) -> None:
+        self.cards = []
+
+    def add_cards(self, cards: List[Card]) -> None:
+        cards_copy = self.cards[:]
+        cards_copy.extend(cards)
+        cards_copy.sort()
+
+        self.cards = cards_copy
+
+    @property
+    def amount_of_cards_hold(self) -> int:
+        return len(self.cards)
 
     @property
     def _rank_validations_from_best_to_worst(self) -> Tuple[Tuple[str, Callable]]:

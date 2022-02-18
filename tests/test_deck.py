@@ -1,5 +1,6 @@
-from unittest import TestCase
 import unittest
+from unittest.mock import patch
+
 from poker.deck import Deck
 from poker.card import Card
 
@@ -10,14 +11,25 @@ class DeckTest(unittest.TestCase):
         self.assertEqual(deck._cards, [])
 
     def test_add_cards_to_its_collection(self):
-        card1 = Card(rank= "Queen", suit = "Hearts")
-        card2 = Card(rank= "Queen", suit = "Spades")
+        card1 = Card(rank="Queen", suit="Hearts")
+        card2 = Card(rank="Queen", suit="Spades")
         deck = Deck()
         deck.add_cards([card1, card2])
         self.assertEqual(deck._cards, [card1, card2])
 
+    @patch("random.shuffle")
+    def tests_shuffle_cards_in_random_order(self, mock_shuffle):
+        deck = Deck()
 
+        cards = [
+            Card(rank="2", suit="Spades"),
+            Card(rank="5", suit="Diamonds")
+        ]
+        deck.add_cards(cards)
 
+        deck.shuffle()
+
+        mock_shuffle.assert_called_once_with(cards)
 
 
 if __name__ == "__main__":

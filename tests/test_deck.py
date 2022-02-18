@@ -47,6 +47,9 @@ class DeckTest(unittest.TestCase):
         # since .removed_cards() removes cards from it.
         self.assertEqual(deck._cards, [eight])
 
+    def tests_deals_two_initial_cards_from_deck_to_each_player(self):
+        pass
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -12,8 +12,10 @@ def main():
     print(_52_cards)
     deck = Deck()
     deck.add_cards(_52_cards)
-    hand1 = Hand(cards=[])
-    hand2 = Hand(cards=[])
+    hand1 = Hand()
+    hand2 = Hand()
+    hand1.add_cards([])
+    hand2.add_cards([])
     player1 = Player(name="William", hand_obj=hand1)
     player2 = Player(name="Specter", hand_obj=hand2)
 

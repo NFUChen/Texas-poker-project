@@ -19,6 +19,7 @@ class Hand:
         which the returned tuple (which will be unpacked as well) will be iterated over, 
         '''
         return (
+        ("Royal FLush", self._royal_flush),
         ("Straight Flush", self._straight_flush),
         ("Four of A Kind", self._four_of_a_kind),
         ("Full House", self._full_house),
@@ -41,8 +42,17 @@ class Hand:
             rank_name, validator_func = rank_name_with_validator_tuple
             if validator_func():
                 return rank_name
+
     
+    def _royal_flush(self) -> bool:
+        is_straight_flush = self._straight_flush()
+
+        is_royal = (self.cards[-1].rank == "Ace" and 
+                    self.cards[0].rank == "10")
+                    
+        return is_straight_flush and is_royal
     
+
     def _straight_flush(self) -> bool:
         return self._flush() and self._straight()
 

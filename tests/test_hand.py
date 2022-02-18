@@ -124,6 +124,19 @@ class HandTest(unittest.TestCase):
         self.assertEqual(hand.best_rank(), 
                          "Straight Flush")
 
+    def test_figues_out_straight_flush_is_the_best_rank(self):
+        cards = [
+            Card(rank= "10", suit= "Clubs"),
+            Card(rank= "Jack", suit= "Clubs"),
+            Card(rank= "Queen", suit= "Clubs"),
+            Card(rank= "King", suit= "Clubs"),
+            Card(rank= "Ace", suit= "Clubs"),
+                 ]
+
+        hand = Hand(cards = cards)
+        self.assertEqual(hand.best_rank(), 
+                         "Royal FLush")
+
 
 
 

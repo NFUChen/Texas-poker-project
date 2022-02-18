@@ -14,11 +14,17 @@ class GameRound:
     def play(self) -> None:
         self._shuffle_deck()
         self._deal_initial_two_cards_from_deck_to_each_player()
+        self._make_bets()
 
     def _shuffle_deck(self) -> None:
         self.deck.shuffle()
 
     def _deal_initial_two_cards_from_deck_to_each_player(self) -> None:
-        for each_player in self.players:
+        for current_player in self.players:
             two_cards: List[Card] = self.deck.remove_cards(2)
-            each_player.add_cards(two_cards)
+            current_player.add_cards(two_cards)
+
+    def _make_bets(self) -> None:
+        for current_player in self.players:
+            if current_player.wants_to_fold():
+                self.players.remove(current_player)

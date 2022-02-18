@@ -13,3 +13,6 @@ class Player:
 
     def add_cards(self, cards: List[Card]) -> None:
         self.hand.add_cards(cards)
+
+    def wants_to_fold(self) -> bool:
+        return False

@@ -37,3 +37,10 @@ class PlayerTest(unittest.TestCase):
         mock_hand.add_cards.assert_called_once_with(cards)
 
         # mock_hand.best_rank.assert_called()
+
+    def tests_decide_to_continue_or_drop_out_of_game(self):
+
+        player = Player(name="PlayerName", hand_obj=Hand())
+        self.assertEqual(
+            player.wants_to_fold(), False
+        )

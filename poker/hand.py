@@ -29,6 +29,7 @@ class Hand:
         ("Two Pair", self._two_pair),
         ("Pair", self._pair),
         ("High Card",self._high_card),
+        ("No Cards", self._no_cards)
     )
 
 
@@ -46,6 +47,8 @@ class Hand:
     
     def _royal_flush(self) -> bool:
         is_straight_flush = self._straight_flush()
+        if not is_straight_flush:
+            return False
 
         is_royal = (self.cards[-1].rank == "Ace" and 
                     self.cards[0].rank == "10")
@@ -121,7 +124,10 @@ class Hand:
         '''
         Test if current hand has high cards.
         '''
-        return True
+        return self.amount_of_cards_hold >= 1
+
+    def _no_cards(self) -> bool:
+        return self.amount_of_cards_hold == 0
 
     
     def _ranks_with_target_count(self, target_count:int) -> dict:

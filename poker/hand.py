@@ -19,12 +19,15 @@ class Hand:
         which the returned tuple (which will be unpacked as well) will be iterated over, 
         '''
         return (
+        ("Straight Flush", self._straight_flush),
+        ("Four of A Kind", self._four_of_a_kind),
+        ("Full House", self._full_house),
+        ("Flush", self._flush),
         ("Straight", self._straight),
         ("Three of A Kind", self._three_of_a_kind),
         ("Two Pair", self._two_pair),
         ("Pair", self._pair),
         ("High Card",self._high_card),
-        
     )
 
 
@@ -38,17 +41,41 @@ class Hand:
             rank_name, validator_func = rank_name_with_validator_tuple
             if validator_func():
                 return rank_name
+    
+    
+    def _straight_flush(self) -> bool:
+        return self._flush() and self._straight()
 
+    
+    def _four_of_a_kind(self) -> bool:
+        '''
+        Test if current hand has a four of a a kind.
+        '''
+        ranks_with_four_of_a_kind = self._ranks_with_target_count(4)
+        return len(ranks_with_four_of_a_kind) == 1
+
+    def _full_house(self) -> bool:
+        return self._three_of_a_kind() and self._pair() 
     
 
 
+    def _flush(self) -> bool:
+        '''
+        Test if current hand has a flush.
+        '''
+        suits_that_occur_5_or_more_times = {
+            suit: suit_count
+            for suit, suit_count in self._card_suit_counts.items()
+            if suit_count >= 5 }
         
-            
-
+        return len(suits_that_occur_5_or_more_times) == 1
 
 
 
     def _straight(self) -> bool:
+        '''
+        Test if current hand has a straight.
+        '''
         rank_indexes = [card.rank_index for card in self.cards]
         #e.g., rank_indexes = [6,7,8,9,10] 
         # rank_indexes== list(range(6, 11))
@@ -61,28 +88,28 @@ class Hand:
     
     def _three_of_a_kind(self) -> bool:
         '''
-        Test if current hand has three of a a kind.
+        Test if current hand has a three of a a kind.
         '''
         ranks_with_three_of_a_kind = self._ranks_with_target_count(3)
         return len(ranks_with_three_of_a_kind) == 1
 
     def _two_pair(self) -> bool:
         '''
-        Test if current hand has two pair.
+        Test if current hand has a two pair.
         '''
         ranks_with_pairs = self._ranks_with_target_count(2)
         return len(ranks_with_pairs) == 2
 
     def _pair(self) -> bool:
         '''
-        Test if current hand has pair.
+        Test if current hand has a pair.
         '''
         ranks_with_pair = self._ranks_with_target_count(2)
         return len(ranks_with_pair) == 1
 
     def _high_card(self) -> bool:
         '''
-        Test if current hand has high card.
+        Test if current hand has high cards.
         '''
         return True
 
@@ -96,6 +123,7 @@ class Hand:
             for rank, rank_count in self._card_rank_counts.items() 
             if rank_count == target_count
                }
+    
 
 
     @property
@@ -111,7 +139,15 @@ class Hand:
 
         return card_rank_count
 
-    
+    def _suits_with_target_count(self, target_count:int) -> dict:
+        '''
+        coupled with _card_rank_counts() method
+        '''
+        return {
+            suit: suit_count 
+            for suit, suit_count in self._card_suit_counts.items() 
+            if suit_count == target_count ## >=
+               }
 
     @property
     def _card_suit_counts(self) -> dict:
@@ -121,5 +157,7 @@ class Hand:
             card_suit_count[card.suit] += 1
 
         return card_suit_count
+
+    
 
 

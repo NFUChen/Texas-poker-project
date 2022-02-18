@@ -31,6 +31,22 @@ class DeckTest(unittest.TestCase):
 
         mock_shuffle.assert_called_once_with(cards)
 
+    def tests_remove_specified_number_of_cards_from_deck(self):
+        ace = Card(rank="Ace", suit="Spades"),
+        eight = Card(rank="8", suit="Diamonds")
+        cards = [ace, eight]
+        deck = Deck()
+        deck.add_cards(cards)
+
+        # checks if .removed_cards() will return a list of cards being removed
+        self.assertEqual(
+            deck.remove_cards(1), [ace]
+        )
+
+        # checks if .removed_carsd() will truely modify the origin deck._cards attributes,
+        # since .removed_cards() removes cards from it.
+        self.assertEqual(deck._cards, [eight])
+
 
 if __name__ == "__main__":
     unittest.main()

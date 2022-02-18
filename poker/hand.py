@@ -7,6 +7,11 @@ class Hand:
     def __init__(self) -> None:
         self.cards = []
 
+    def __repr__(self) -> str:
+        cards_as_string = ", ".join([str(card) for card in self.cards])
+
+        return cards_as_string
+
     def add_cards(self, cards: List[Card]) -> None:
         cards_copy = self.cards[:]
         cards_copy.extend(cards)

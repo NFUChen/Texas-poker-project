@@ -33,7 +33,7 @@ class StraightValidator:
 
         return collections_of_valid_straight_cards
 
-    def _every_element_increasing_by_1(self, rank_indexes) -> bool:
+    def _every_element_increasing_by_1(self, rank_indexes: List[int]) -> bool:
 
         return rank_indexes == list(range(rank_indexes[0],
                                           rank_indexes[-1] + 1))
@@ -41,5 +41,6 @@ class StraightValidator:
     def valid_cards(self) -> List[Card]:
         collections_of_valid_straight_cards: List[List[Card]
                                                   ] = self._get_collections_of_valid_straight_cards()
+        # the last one is the best one, since the card is sorted
         _valid_card: List[Card] = collections_of_valid_straight_cards[-1]
         return _valid_card

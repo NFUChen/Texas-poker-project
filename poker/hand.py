@@ -11,8 +11,8 @@ from poker.validators import (
     FlushValidator,
     FullHouseValidator,
     FourOfAKindValidator,
-    StraightFlushValidator
-
+    StraightFlushValidator,
+    RoyalFlushValidator
 )
 
 
@@ -33,17 +33,13 @@ class Hand:
         self.cards = cards_copy
 
     @property
-    def amount_of_cards_hold(self) -> int:
-        return len(self.cards)
-
-    @property
     def _rank_validations_from_best_to_worst(self) -> Tuple[Tuple[str, Callable]]:
         '''
         Helper property of .best_rank() method, 
         which the returned tuple (which will be unpacked as well) will be iterated over, 
         '''
         return (
-            ("Royal FLush", self._royal_flush),
+            ("Royal FLush", RoyalFlushValidator(cards=self.cards).is_valid),
             ("Straight Flush", StraightFlushValidator(cards=self.cards).is_valid),
             ("Four of A Kind", FourOfAKindValidator(cards=self.cards).is_valid),
             ("Full House", FullHouseValidator(cards=self.cards).is_valid),
@@ -66,14 +62,3 @@ class Hand:
             rank_name, validator_func = rank_name_with_validator_tuple
             if validator_func():
                 return rank_name
-
-    def _royal_flush(self) -> bool:
-        is_straight_flush = StraightFlushValidator(cards=self.cards).is_valid()
-        if not is_straight_flush:
-            # if the .amount_of_cards_hold is < 5, returning False
-            return False
-
-        is_royal = (self.cards[-1].rank == "Ace" and
-                    self.cards[0].rank == "10")
-
-        return is_straight_flush and is_royal

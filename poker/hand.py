@@ -1,7 +1,11 @@
 from typing import Callable, List, Tuple
 
 from poker.card import Card
-from poker.validators import HighCardValidator, NoCardsValidator
+from poker.validators import (
+                                HighCardValidator, 
+                                NoCardsValidator, 
+                                PairValidator,
+)
 
 
 class Hand:
@@ -39,7 +43,7 @@ class Hand:
             ("Straight", self._straight),
             ("Three of A Kind", self._three_of_a_kind),
             ("Two Pair", self._two_pair),
-            ("Pair", self._pair),
+            ("Pair", PairValidator(cards= self.cards).is_valid),
             ("High Card", HighCardValidator(cards= self.cards).is_valid),
             ("No Cards", NoCardsValidator(cards= self.cards).is_valid)
         )
@@ -77,7 +81,10 @@ class Hand:
         return len(ranks_with_four_of_a_kind) == 1
 
     def _full_house(self) -> bool:
-        return self._three_of_a_kind() and self._pair()
+        return (
+            self._three_of_a_kind() and
+            PairValidator(cards= self.cards).is_valid()
+                )
 
     def _flush(self) -> bool:
         '''
@@ -116,12 +123,12 @@ class Hand:
         ranks_with_pairs = self._ranks_with_target_count(2)
         return len(ranks_with_pairs) == 2
 
-    def _pair(self) -> bool:
-        '''
-        Test if current hand has a pair.
-        '''
-        ranks_with_pair = self._ranks_with_target_count(2)
-        return len(ranks_with_pair) == 1
+    # def _pair(self) -> bool:
+    #     '''
+    #     Test if current hand has a pair.
+    #     '''
+    #     ranks_with_pair = self._ranks_with_target_count(2)
+    #     return len(ranks_with_pair) == 1
 
     
 

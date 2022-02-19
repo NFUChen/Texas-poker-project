@@ -1,6 +1,3 @@
-from poker.card import Card
-
-
 from typing import List
 from poker.card import Card
 

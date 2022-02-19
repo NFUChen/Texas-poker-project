@@ -46,6 +46,9 @@ class Card:
         implement Card.sort() automatically
         '''
 
+        if self.rank == __o.rank:
+            return self.suit > __o.suit #sorting alphabetically
+
         return self.rank_index > __o.rank_index
 
     def __str__(self) -> str:

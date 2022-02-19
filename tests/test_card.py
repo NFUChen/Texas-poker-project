@@ -81,8 +81,9 @@ class CardTest(unittest.TestCase):
             eight_of_hearts,
             ace_of_clubs,
             two_of_spades,
-            five_of_diamonds,
             five_of_hearts,
+            five_of_diamonds,
+            
 
         ]
         unsorted_cards.sort()

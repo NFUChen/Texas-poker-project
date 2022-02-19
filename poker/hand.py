@@ -6,6 +6,7 @@ from poker.validators import (
                                 NoCardsValidator, 
                                 PairValidator,
                                 TwoPairValidator,
+                                ThreeOfAKindValidator
 )
 
 
@@ -42,7 +43,7 @@ class Hand:
             ("Full House", self._full_house),
             ("Flush", self._flush),
             ("Straight", self._straight),
-            ("Three of A Kind", self._three_of_a_kind),
+            ("Three of A Kind", ThreeOfAKindValidator(cards= self.cards).is_valid),
             ("Two Pair", TwoPairValidator(cards= self.cards).is_valid),
             ("Pair", PairValidator(cards= self.cards).is_valid),
             ("High Card", HighCardValidator(cards= self.cards).is_valid),
@@ -83,7 +84,7 @@ class Hand:
 
     def _full_house(self) -> bool:
         return (
-            self._three_of_a_kind() and
+            ThreeOfAKindValidator(cards= self.cards).is_valid() and
             PairValidator(cards= self.cards).is_valid()
                 )
 
@@ -110,12 +111,7 @@ class Hand:
 
         return rank_indexes == list(range(rank_indexes[0], rank_indexes[-1] + 1))
 
-    def _three_of_a_kind(self) -> bool:
-        '''
-        Test if current hand has a three of a a kind.
-        '''
-        ranks_with_three_of_a_kind = self._ranks_with_target_count(3)
-        return len(ranks_with_three_of_a_kind) == 1
+
 
 
     def _ranks_with_target_count(self, target_count: int) -> dict:

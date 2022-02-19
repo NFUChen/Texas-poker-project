@@ -14,7 +14,7 @@ class GameRound:
     def play(self) -> None:
         self._shuffle_deck()
         self._deal_initial_two_cards_from_deck_to_each_player()
-        
+
         self._make_bets()
         self._deal_flop_cards()
 
@@ -38,19 +38,18 @@ class GameRound:
             if current_player.wants_to_fold():
                 self.players.remove(current_player)
 
-    def _deal_flop_cards(self) -> None:
-        community_cards:List[Card] = self.deck.remove_cards(3)
+    def _deal_community_cards(self, number_of_cards_dealt:int) -> None:
+        community_cards:List[Card] = self.deck.remove_cards(number_of_cards_dealt)
         for current_player in self.players:
             current_player.add_cards(community_cards)
 
+    def _deal_flop_cards(self) -> None:
+        self._deal_community_cards(3)
+
     def _deal_turn_card(self) -> None:
-        community_card:List[Card] = self.deck.remove_cards(1)
-        for current_player in self.players:
-            current_player.add_cards(community_card)
+        self._deal_community_cards(1)
 
     def _deal_river_card(self) -> None:
-        community_card:List[Card] = self.deck.remove_cards(1)
-        for current_player in self.players:
-            current_player.add_cards(community_card)
+        self._deal_community_cards(1)
 
         

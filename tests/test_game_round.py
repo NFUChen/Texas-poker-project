@@ -9,6 +9,29 @@ from poker.player import Player
 
 
 class GameRoundTest(unittest.TestCase):
+    def setUp(self):
+        self.first_two_cards = [
+            Card(rank="2", suit="Hearts"),
+            Card(rank="6", suit="Spades")
+        ]
+
+        self.next_two_cards = [
+            Card(rank="9", suit="Diamonds"),
+            Card(rank="4", suit="Spades")
+        ]
+        self.flop_cards = [
+            Card(rank="9", suit="Diamonds"),
+            Card(rank="4", suit="Spades"),
+            Card(rank="5", suit="Spades"),
+        ]
+        self.turn_cards = [
+            Card(rank= "9", suit= "Hearts")
+        ]
+        self.river_cards = [
+            [Card(rank="Queen", suit= "Clubs")]
+        ]
+
+
     def tests_stores_deck_and_players(self):
         deck = MagicMock()
         mock_players = [
@@ -34,20 +57,15 @@ class GameRoundTest(unittest.TestCase):
 
     def tests_deals_two_initial_cards_from_deck_to_each_player(self):
 
-        first_two_cards = [
-            Card(rank="2", suit="Hearts"),
-            Card(rank="6", suit="Spades")
-        ]
-
-        next_two_cards = [
-            Card(rank="9", suit="Diamonds"),
-            Card(rank="4", suit="Spades")
-        ]
+        
 
         mock_deck = MagicMock()
         mock_deck.remove_cards.side_effect = [
-            first_two_cards,  # first time call
-            next_two_cards  # second time call
+            self.first_two_cards,  # first time call
+            self.next_two_cards, # second time call
+            self.flop_cards,
+            self.turn_cards, 
+            self.river_cards
         ]
 
         mock_player1 = MagicMock()
@@ -68,8 +86,15 @@ class GameRoundTest(unittest.TestCase):
             call(2), call(2)
         ])
 
-        mock_player1.add_cards.assert_called_with(first_two_cards)
-        mock_player2.add_cards.assert_called_with(next_two_cards)
+        mock_player1.add_cards.assert_has_calls([
+            call(self.first_two_cards)
+        ])
+        mock_player2.add_cards.assert_has_calls([
+            call(self.next_two_cards)
+        ])
+
+        # mock_player1.add_cards.assert_called_with(self.first_two_cards)
+        # mock_player2.add_cards.assert_called_with(self.next_two_cards)
 
     def test_removes_player_if_not_willing_to_make_bet(self):
         mock_deck = MagicMock()
@@ -90,21 +115,38 @@ class GameRoundTest(unittest.TestCase):
             game_round.players, [player2]
         )
 
-    def test_deals_same_three_community_cards_to_all_players_in_flop(self):
+    def test_deals_each_player_3_flop_1_turn_and_1_river_cards(self):
         player1 = MagicMock()
         player2 = MagicMock()
         player1.wants_to_fold.return_value = False  # player1 wants to fold
         player2.wants_to_fold.return_value = False  # player2 wants to fold as well
-
-        community_cards = [
-            Card(rank="9", suit="Diamonds"),
-            Card(rank="4", suit="Spades"),
-            Card(rank="5", suit="Spades"),
-        ]
+        mock_players = [player1, player2]
+        
 
         mock_deck = MagicMock()
         mock_deck.remove_cards.side_effect = [
-            [],
-            [],
-            community_cards,
+            self.first_two_cards, #first returned value
+            self.next_two_cards, #second returned value
+            self.flop_cards, #third returned value
+            self.turn_cards, 
+            self.river_cards
         ]
+        game_round = GameRound(deck=mock_deck,
+                               players=mock_players)
+
+        game_round.play()
+
+        mock_deck.remove_cards.assert_has_calls([call(3), call(1), call(1)])
+        
+        calls = [
+            call(self.flop_cards), call(self.turn_cards), call(self.river_cards)
+        ]
+
+        for current_player in mock_players:
+            current_player.add_cards.assert_has_calls(calls)
+
+
+
+
+        
+

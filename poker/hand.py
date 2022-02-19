@@ -1,13 +1,15 @@
 from typing import Callable, List, Tuple
 
 from poker.card import Card
-from poker.validators import (  
-                                NoCardsValidator, 
-                                HighCardValidator, 
-                                PairValidator,
-                                TwoPairValidator,
-                                ThreeOfAKindValidator,
-                                StraightValidator
+from poker.validators import (
+    NoCardsValidator,
+    HighCardValidator,
+    PairValidator,
+    TwoPairValidator,
+    ThreeOfAKindValidator,
+    StraightValidator,
+    FlushValidator,
+
 )
 
 
@@ -42,13 +44,13 @@ class Hand:
             ("Straight Flush", self._straight_flush),
             ("Four of A Kind", self._four_of_a_kind),
             ("Full House", self._full_house),
-            ("Flush", self._flush),
+            ("Flush", FlushValidator(cards=self.cards).is_valid),
             ("Straight", StraightValidator(cards=self.cards).is_valid),
-            ("Three of A Kind", ThreeOfAKindValidator(cards= self.cards).is_valid),
-            ("Two Pair", TwoPairValidator(cards= self.cards).is_valid),
-            ("Pair", PairValidator(cards= self.cards).is_valid),
-            ("High Card", HighCardValidator(cards= self.cards).is_valid),
-            ("No Cards", NoCardsValidator(cards= self.cards).is_valid)
+            ("Three of A Kind", ThreeOfAKindValidator(cards=self.cards).is_valid),
+            ("Two Pair", TwoPairValidator(cards=self.cards).is_valid),
+            ("Pair", PairValidator(cards=self.cards).is_valid),
+            ("High Card", HighCardValidator(cards=self.cards).is_valid),
+            ("No Cards", NoCardsValidator(cards=self.cards).is_valid)
         )
 
     def best_rank(self) -> str:
@@ -74,7 +76,10 @@ class Hand:
         return is_straight_flush and is_royal
 
     def _straight_flush(self) -> bool:
-        return self._flush() and StraightValidator(cards= self.cards).is_valid()
+        return (
+            FlushValidator(cards=self.cards) and
+            StraightValidator(cards=self.cards).is_valid()
+        )
 
     def _four_of_a_kind(self) -> bool:
         '''
@@ -85,25 +90,9 @@ class Hand:
 
     def _full_house(self) -> bool:
         return (
-            ThreeOfAKindValidator(cards= self.cards).is_valid() and
-            PairValidator(cards= self.cards).is_valid()
-                )
-
-    def _flush(self) -> bool:
-        '''
-        Test if current hand has a flush.
-        '''
-        suits_that_occur_5_or_more_times = {
-            suit: suit_count
-            for suit, suit_count in self._card_suit_counts.items()
-            if suit_count >= 5}
-
-        return len(suits_that_occur_5_or_more_times) == 1
-
-    
-
-
-
+            ThreeOfAKindValidator(cards=self.cards).is_valid() and
+            PairValidator(cards=self.cards).is_valid()
+        )
 
     def _ranks_with_target_count(self, target_count: int) -> dict:
         '''
@@ -128,23 +117,3 @@ class Hand:
             card_rank_count[card.rank] += 1
 
         return card_rank_count
-
-    def _suits_with_target_count(self, target_count: int) -> dict:
-        '''
-        coupled with _card_rank_counts() method
-        '''
-        return {
-            suit: suit_count
-            for suit, suit_count in self._card_suit_counts.items()
-            if suit_count == target_count  # >=
-        }
-
-    @property
-    def _card_suit_counts(self) -> dict:
-        card_suit_count = {}
-        for card in self.cards:
-            # if the key already exists, do nothing
-            card_suit_count.setdefault(card.suit, 0)
-            card_suit_count[card.suit] += 1
-
-        return card_suit_count

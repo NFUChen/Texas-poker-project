@@ -31,29 +31,6 @@ class HandTest(unittest.TestCase):
         hand.add_cards(cards=cards)
         self.assertEqual(hand.cards, cards)
 
-    
-    
-
-    
-
-    
-
-    
-
-    def test_figues_out_flush_is_the_best_rank(self):
-        cards = [
-            Card(rank="Ace", suit="Hearts"),
-            Card(rank="2", suit="Hearts"),
-            Card(rank="5", suit="Hearts"),
-            Card(rank="8", suit="Hearts"),
-            Card(rank="7", suit="Hearts"),
-        ]
-
-        hand = Hand()
-        hand.add_cards(cards=cards)
-        self.assertEqual(hand.best_rank(),
-                         "Flush")
-
     def test_figues_out_full_house_is_the_best_rank(self):
         cards = [
             Card(rank="5", suit="Diamonds"),

@@ -1,6 +1,8 @@
-from .rank_count_base_validator import RankCountValidator 
+from .rank_count_base_validator import RankCountValidator
 # base validator that every validators below sholuld inhert from
 
+
+from .flush_validator import FlushValidator
 from .straight_validator import StraightValidator
 from .three_of_a_kind_validator import ThreeOfAKindValidator
 from .two_pair_validator import TwoPairValidator

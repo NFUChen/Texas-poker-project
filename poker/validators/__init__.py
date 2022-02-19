@@ -1,4 +1,5 @@
 from .rank_count_base_validator import RankCountValidator
+from .five_card_ranks_in_a_row_validator import FiveCardRanksInARowValidator
 # base validator that every validators below sholuld inhert from
 
 from .no_card_validator import NoCardsValidator

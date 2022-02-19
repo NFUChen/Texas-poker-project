@@ -11,6 +11,7 @@ from poker.validators import (
     FlushValidator,
     FullHouseValidator,
     FourOfAKindValidator,
+    StraightFlushValidator
 
 )
 
@@ -43,7 +44,7 @@ class Hand:
         '''
         return (
             ("Royal FLush", self._royal_flush),
-            ("Straight Flush", self._straight_flush),
+            ("Straight Flush", StraightFlushValidator(cards=self.cards).is_valid),
             ("Four of A Kind", FourOfAKindValidator(cards=self.cards).is_valid),
             ("Full House", FullHouseValidator(cards=self.cards).is_valid),
             ("Flush", FlushValidator(cards=self.cards).is_valid),
@@ -67,7 +68,7 @@ class Hand:
                 return rank_name
 
     def _royal_flush(self) -> bool:
-        is_straight_flush = self._straight_flush()
+        is_straight_flush = StraightFlushValidator(cards=self.cards).is_valid()
         if not is_straight_flush:
             # if the .amount_of_cards_hold is < 5, returning False
             return False
@@ -76,9 +77,3 @@ class Hand:
                     self.cards[0].rank == "10")
 
         return is_straight_flush and is_royal
-
-    def _straight_flush(self) -> bool:
-        return (
-            FlushValidator(cards=self.cards) and
-            StraightValidator(cards=self.cards).is_valid()
-        )

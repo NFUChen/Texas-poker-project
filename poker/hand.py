@@ -5,6 +5,7 @@ from poker.validators import (
                                 HighCardValidator, 
                                 NoCardsValidator, 
                                 PairValidator,
+                                TwoPairValidator,
 )
 
 
@@ -42,7 +43,7 @@ class Hand:
             ("Flush", self._flush),
             ("Straight", self._straight),
             ("Three of A Kind", self._three_of_a_kind),
-            ("Two Pair", self._two_pair),
+            ("Two Pair", TwoPairValidator(cards= self.cards).is_valid),
             ("Pair", PairValidator(cards= self.cards).is_valid),
             ("High Card", HighCardValidator(cards= self.cards).is_valid),
             ("No Cards", NoCardsValidator(cards= self.cards).is_valid)
@@ -115,22 +116,6 @@ class Hand:
         '''
         ranks_with_three_of_a_kind = self._ranks_with_target_count(3)
         return len(ranks_with_three_of_a_kind) == 1
-
-    def _two_pair(self) -> bool:
-        '''
-        Test if current hand has a two pair.
-        '''
-        ranks_with_pairs = self._ranks_with_target_count(2)
-        return len(ranks_with_pairs) == 2
-
-    # def _pair(self) -> bool:
-    #     '''
-    #     Test if current hand has a pair.
-    #     '''
-    #     ranks_with_pair = self._ranks_with_target_count(2)
-    #     return len(ranks_with_pair) == 1
-
-    
 
 
     def _ranks_with_target_count(self, target_count: int) -> dict:

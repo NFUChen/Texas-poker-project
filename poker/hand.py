@@ -1,6 +1,7 @@
 from typing import Callable, List, Tuple
 
 from poker.card import Card
+from poker.validators import HighCardValidator
 
 
 class Hand:
@@ -39,7 +40,7 @@ class Hand:
             ("Three of A Kind", self._three_of_a_kind),
             ("Two Pair", self._two_pair),
             ("Pair", self._pair),
-            ("High Card", self._high_card),
+            ("High Card", HighCardValidator(cards= self.cards).is_valid),
             ("No Cards", self._no_cards)
         )
 
@@ -122,11 +123,7 @@ class Hand:
         ranks_with_pair = self._ranks_with_target_count(2)
         return len(ranks_with_pair) == 1
 
-    def _high_card(self) -> bool:
-        '''
-        Test if current hand has high cards.
-        '''
-        return self.amount_of_cards_hold >= 1
+    
 
     def _no_cards(self) -> bool:
         return self.amount_of_cards_hold == 0

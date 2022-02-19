@@ -21,10 +21,9 @@ def main():
 
     game_round.play()
 
+
     print(player1.hand)
-    print(player1.hand.cards)
-    print(len(deck._cards))
-    print(len(deck))
+    print(player1.best_hand())
 
 
 if __name__ == "__main__":

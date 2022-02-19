@@ -1,12 +1,13 @@
 from typing import Callable, List, Tuple
 
 from poker.card import Card
-from poker.validators import (
-                                HighCardValidator, 
+from poker.validators import (  
                                 NoCardsValidator, 
+                                HighCardValidator, 
                                 PairValidator,
                                 TwoPairValidator,
-                                ThreeOfAKindValidator
+                                ThreeOfAKindValidator,
+                                StraightValidator
 )
 
 
@@ -42,7 +43,7 @@ class Hand:
             ("Four of A Kind", self._four_of_a_kind),
             ("Full House", self._full_house),
             ("Flush", self._flush),
-            ("Straight", self._straight),
+            ("Straight", StraightValidator(cards=self.cards).is_valid),
             ("Three of A Kind", ThreeOfAKindValidator(cards= self.cards).is_valid),
             ("Two Pair", TwoPairValidator(cards= self.cards).is_valid),
             ("Pair", PairValidator(cards= self.cards).is_valid),
@@ -73,7 +74,7 @@ class Hand:
         return is_straight_flush and is_royal
 
     def _straight_flush(self) -> bool:
-        return self._flush() and self._straight()
+        return self._flush() and StraightValidator(cards= self.cards).is_valid()
 
     def _four_of_a_kind(self) -> bool:
         '''
@@ -99,17 +100,7 @@ class Hand:
 
         return len(suits_that_occur_5_or_more_times) == 1
 
-    def _straight(self) -> bool:
-        '''
-        Test if current hand has a straight.
-        '''
-        rank_indexes = [card.rank_index for card in self.cards]
-        # e.g., rank_indexes = [6,7,8,9,10]
-        # rank_indexes== list(range(6, 11))
-        if self.amount_of_cards_hold < 5:
-            return False
-
-        return rank_indexes == list(range(rank_indexes[0], rank_indexes[-1] + 1))
+    
 
 
 

@@ -1,7 +1,7 @@
 from typing import Callable, List, Tuple
 
 from poker.card import Card
-from poker.validators import HighCardValidator
+from poker.validators import HighCardValidator, NoCardsValidator
 
 
 class Hand:
@@ -41,7 +41,7 @@ class Hand:
             ("Two Pair", self._two_pair),
             ("Pair", self._pair),
             ("High Card", HighCardValidator(cards= self.cards).is_valid),
-            ("No Cards", self._no_cards)
+            ("No Cards", NoCardsValidator(cards= self.cards).is_valid)
         )
 
     def best_rank(self) -> str:
@@ -125,8 +125,6 @@ class Hand:
 
     
 
-    def _no_cards(self) -> bool:
-        return self.amount_of_cards_hold == 0
 
     def _ranks_with_target_count(self, target_count: int) -> dict:
         '''

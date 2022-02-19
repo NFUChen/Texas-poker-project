@@ -31,11 +31,7 @@ class HandTest(unittest.TestCase):
         hand.add_cards(cards=cards)
         self.assertEqual(hand.cards, cards)
 
-    def test_figures_out_no_cards_is_the_best_rank(self):
-        hand = Hand()
-        hand.add_cards(cards=[])
-        self.assertEqual(hand.best_rank(), "No Cards")
-
+    
     
 
     def test_figues_out_pair_is_the_best_rank(self):

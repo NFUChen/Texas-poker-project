@@ -1,9 +1,10 @@
+from poker.validators import AbstractValidator
 from typing import List
 from poker.card import Card
 from poker.validators import FiveCardRanksInARowValidator, StraightFlushValidator
 
 
-class RoyalFlushValidator(FiveCardRanksInARowValidator):
+class RoyalFlushValidator(AbstractValidator, FiveCardRanksInARowValidator):
     def __init__(self, cards: List[Card]) -> None:
         self._cards = cards
         self._name = "Royal Flush"

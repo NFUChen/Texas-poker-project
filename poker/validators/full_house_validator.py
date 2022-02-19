@@ -1,3 +1,4 @@
+from poker.validators import AbstractValidator
 from typing import List
 
 from poker.card import Card
@@ -7,7 +8,7 @@ from poker.validators import (
 )
 
 
-class FullHouseValidator:
+class FullHouseValidator(AbstractValidator):
     def __init__(self, cards: List[Card]) -> None:
         self._cards = cards
         self._name = "Full House"

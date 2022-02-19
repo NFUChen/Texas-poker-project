@@ -1,10 +1,11 @@
+from poker.validators import AbstractValidator
 from typing import List
 
 from poker.card import Card
 from poker.validators import RankCountValidator
 
 
-class FourOfAKindValidator(RankCountValidator):
+class FourOfAKindValidator(AbstractValidator, RankCountValidator):
     def __init__(self, cards: List[Card]) -> None:
         self._cards = cards
         self._name = "Four of A Kind"

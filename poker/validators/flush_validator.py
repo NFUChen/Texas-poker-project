@@ -1,10 +1,11 @@
+from poker.validators import AbstractValidator
 from typing import List
 
 from poker.card import Card
 from poker.validators import RankCountValidator  # for rank count
 
 
-class FlushValidator(RankCountValidator):
+class FlushValidator(AbstractValidator, RankCountValidator):
     def __init__(self, cards: List[Card]) -> None:
         self._cards = cards
         self._name = "Flush"

@@ -20,7 +20,7 @@ class Hand:
     '''
     Similar to stragy pattern, the validator classes can be swaped with other algorithms in any order.
     '''
-    ALL_VALIDATOR_CLASSES = (
+    ALL_VALIDATOR_CLASSES: Tuple = (
         RoyalFlushValidator,
         StraightFlushValidator,
         FourOfAKindValidator,
